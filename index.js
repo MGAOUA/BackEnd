@@ -1,8 +1,11 @@
 const express = require("express");
 const userRouter = require("./api/controllers/user/router");
-
+const morgan = require("morgan"); // afficher la requete reçu
+const helmet = require("helmet"); //cacher l'information de service used
 const app = express();
 app.use(express.json());
+app.use(morgan("combined"));
+app.use(helmet());
 app.use("/user", userRouter);
 //get post put path delete
 //http:localhost:5000/users
