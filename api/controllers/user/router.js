@@ -2,14 +2,17 @@ const express = require("express");
 
 const controller = require("./controller");
 const hourMidlleWare = require("../../../midlewares/hourMiddleWare");
-const todoRouter = express.Router();
-
+const userRouter = express.Router();
+const validator = require("../../../validator/user");
 //CRUD API
-todoRouter
+userRouter
   .get("/", hourMidlleWare.verifyMorning, controller.getUser)
-  .get("/:id", controller.getUserById)
-  .post("/", controller.CreatUser)
-  .put("/:id", controller.updateUser)
-  .delete("/:id", controller.deleteUser);
+  //.get("/:id", controller.getUserById)
+  .get("/:id", controller.getUserByIdFromBDD)
+  .post("/", validator.validatePost, controller.CreatUser)
+  //.put("/:id", controller.updateUser)
+  .put("/:id", validator.validatePut, controller.UpdateUserFormBdd)
+  //.delete("/:id", controller.deleteUser);
+  .delete("/:id", controller.deleteUserFromBdd);
 
-module.exports = todoRouter;
+module.exports = userRouter;
