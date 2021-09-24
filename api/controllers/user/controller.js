@@ -48,12 +48,19 @@ const CreatUser = async (req, res) => {
   // console.log(req.body);
   // const newuser = { ...req.body, id: users.length + 1 };
   // users.push(newuser);
-
-  const newUser = new User({ ...req.body });
-  await newUser.save();
-  res
-    .status(201)
-    .send({ message: "user created successfuly", data: { newUser } });
+  try {
+    const newUser = new User({ ...req.body });
+    await newUser.save();
+    res
+      .status(201)
+      .send({ message: "user created successfuly", data: { newUser } });
+  } catch (error) {
+    console.log("message  : ", error.message);
+    res.status(500).send({
+      message: "server error",
+      data: {},
+    });
+  }
 };
 
 const updateUser = (req, res) => {
